@@ -2,9 +2,12 @@
 
 [![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-blue)](https://github.com/openclaw/openclaw)
 [![macOS](https://img.shields.io/badge/macOS-Only-lightgrey)](https://www.apple.com/macos/)
+[![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-Metal%20GPU-orange)](https://support.apple.com/en-us/116943)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Intelligently sync, transcribe, and organize voice memos, audio/video files, and URLs with AI-powered analysis.**
+
+> ⚠️ **Apple Ecosystem Only**: This skill is designed exclusively for macOS users with Apple Voice Memos, Apple Notes, and Apple Reminders integration. Linux/Windows are not supported.
 
 Transform your voice recordings, YouTube videos, and meeting transcripts into structured, actionable notes — automatically synced to Apple Notes & Reminders.
 

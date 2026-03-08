@@ -2,9 +2,12 @@
 
 [![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-blue)](https://github.com/openclaw/openclaw)
 [![macOS](https://img.shields.io/badge/macOS-仅限-lightgrey)](https://www.apple.com/macos/)
+[![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-Metal%20GPU-orange)](https://support.apple.com/zh-cn/116943)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **智能同步、转录、整理语音备忘录、音视频文件和视频链接。**
+
+> ⚠️ **仅支持Apple生态**: 本技能专为macOS用户设计，集成Apple语音备忘录、Apple备忘录和Apple提醒事项。不支持Linux/Windows。
 
 将你的语音录音、YouTube视频、会议转录自动转化为结构化、可执行的笔记 — 自动同步到 Apple Notes 和提醒事项。
 
