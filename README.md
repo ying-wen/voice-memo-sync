@@ -7,7 +7,7 @@
 
 **Intelligently sync, transcribe, and organize voice memos, audio/video files, and URLs with AI-powered analysis.**
 
-> ⚠️ **Apple Ecosystem Only**: This skill is designed exclusively for macOS users with Apple Voice Memos, Apple Notes, and Apple Reminders integration. Linux/Windows are not supported.
+> 🍎 **Apple Ecosystem**: Works with iPhone, iPad, and Mac. Voice memos recorded on any Apple device sync via iCloud and get processed automatically. Output syncs back to Apple Notes & Reminders across all your devices. Linux/Windows not supported.
 
 Transform your voice recordings, YouTube videos, and meeting transcripts into structured, actionable notes — automatically synced to Apple Notes & Reminders.
 
