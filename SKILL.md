@@ -3,7 +3,7 @@ name: voice-memo-sync
 description: |
   Sync, transcribe, and intelligently organize voice memos, audio/video files, and URLs.
   同步、转录、智能整理语音备忘录、音视频文件和视频链接。
-version: 1.2.0
+version: 1.5.0
 author: Ying Wen
 homepage: https://github.com/ying-wen/voice-memo-sync
 license: MIT
@@ -333,12 +333,81 @@ echo '{"input":"...", "type":"...", "date":"YYYY-MM-DD"}' > sources/xxx.json
 
 ### Step 4: LLM Deep Processing / LLM深度整理
 ```
-Read USER.md and MEMORY.md, combining user context:
-- Clean up spoken expressions / 整理口语表达
-- Fix obvious typos / 修正明显错字
-- Extract key points / 提取关键要点
-- Generate personalized insights / 生成个性化洞察
-- Identify TODOs and connections / 识别TODO和关联
+Read USER.md and MEMORY.md, combining user context.
+
+**MODE SELECTION (Auto-detect or Manual Override) / 模式选择:**
+
+┌─────────────────────────────────────────────────────────────────┐
+│  Mode A: Solo Memo (Default) / 短语音                           │
+│  Trigger: < 5 min, single speaker, casual                       │
+│  Output: Clean text + Key points + TODOs + Connections          │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│  Mode B: Deep Meeting / 深度会议                                │
+│  Trigger: 15-60 min, multi-speaker with labels                  │
+│  Output:                                                        │
+│    1. Executive Summary (1 paragraph)                           │
+│    2. Chronological Detail by time blocks                       │
+│    3. Debate Flow (who said what, conflicts)                    │
+│    4. Decision Matrix (Issue → Decision → Rationale)            │
+│    5. Action Items with owners                                  │
+│    6. Vital Quotes (preserve Voice)                             │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│  Mode C: Lecture / Talk / 讲座模式 (NEW)                        │
+│  Trigger: Single speaker, 30min-3hr, structured presentation    │
+│  Output:                                                        │
+│    1. Executive Summary (1 paragraph)                           │
+│    2. **Argument Structure (论点层级)**:                        │
+│       - Core Thesis (核心论点)                                  │
+│       - Supporting Arguments (分论点 1, 2, 3...)                │
+│       - Key Evidence/Examples for each argument                 │
+│       - Counter-arguments addressed (if any)                    │
+│    3. Key Definitions (关键定义/概念)                           │
+│    4. Notable Quotes (金句, with timestamps if available)       │
+│    5. Connections to User's Work (个人关联)                     │
+│    6. Questions Raised / Gaps (讲座未解决的问题)                │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│  Mode D: Lecture + Q&A / 讲座+问答 (NEW)                        │
+│  Trigger: First part monologue, second part Q&A                 │
+│  Output:                                                        │
+│    **Part I: Lecture Section** (use Mode C structure)           │
+│    **Part II: Q&A Section**                                     │
+│       - Group questions by theme/topic (not chronological)      │
+│       - Format: Q1 → A1 (summary), Q2 → A2...                   │
+│       - Highlight: Best Questions, Surprising Answers           │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│  Mode E: Long-form No-Speaker-Label / 超长无标注会议 (NEW)      │
+│  Trigger: > 90 min, NO speaker diarization (text is a blob)     │
+│  Strategy:                                                      │
+│    1. **Chunking**: Split into ~30min segments for processing   │
+│    2. **Topic Detection**: Identify topic shift points          │
+│       (Don't force time blocks; use semantic breaks)            │
+│    3. **Abandon Attribution**: Don't guess who said what        │
+│  Output:                                                        │
+│    1. Executive Summary                                         │
+│    2. **Topic Blocks** (not time blocks):                       │
+│       - Topic 1: [Summary] + [Key points] + [Quotes]            │
+│       - Topic 2: ...                                            │
+│    3. Unresolved Issues / Open Questions                        │
+│    4. Action Items (may lack owners)                            │
+│    5. Full Cleaned Transcript (appended or linked)              │
+└─────────────────────────────────────────────────────────────────┘
+
+**TWO-PASS PROCESSING for Long Content (> 60 min):**
+- Pass 1 (Quick Scan): Identify structure type, speaker presence, topic shifts
+- Pass 2 (Deep Process): Apply appropriate mode to each segment
+
+**OUTPUT DENSITY LEVELS (User can request):**
+- Level 1: Executive Only (1 page, for busy stakeholders)
+- Level 2: Structured Summary (5-10 pages, default)
+- Level 3: Full Annotated Transcript (everything, with margin notes)
 ```
 
 ### Step 5: Save Processed Result / 保存处理结果
@@ -348,6 +417,8 @@ Read USER.md and MEMORY.md, combining user context:
 
 ### Step 6: Sync to Apple Notes / 同步到Apple Notes
 ```bash
+# For Mode B (Deep Meeting), attach the FULL processed MD content (preserving density).
+# If content is too long for Apple Notes, include the Executive Summary + Key Decisions + Link to local MD file.
 osascript << 'AS'
 tell application "Notes"
     tell account "iCloud"
@@ -413,6 +484,19 @@ osascript -e 'tell application "Notes" to tell account "iCloud" to make new fold
 ---
 
 ## Changelog / 更新日志
+
+### v1.5.0 (2026-03-09)
+- Added Mode C: Lecture/Talk (single speaker, argument structure extraction).
+- Added Mode D: Lecture + Q&A (hybrid processing).
+- Added Mode E: Long-form No-Speaker-Label (> 90min, topic-based chunking).
+- Introduced Two-Pass Processing for content > 60 min.
+- Added Output Density Levels (Executive / Structured / Full Annotated).
+
+### v1.4.0 (2026-03-09)
+- Introduced "Deep Meeting Mode" for content > 15min or multi-speaker.
+- Preserves information density for critical discussions/interviews.
+- New structure: Executive Summary + Chronological Detail + Debate Flow + Decision Matrix.
+- Explicit attribution of quotes and arguments.
 
 ### v1.2.0 (2026-03-08)
 - Added unified processing script process.sh / 新增统一处理脚本
