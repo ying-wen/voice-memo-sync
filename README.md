@@ -146,8 +146,8 @@ Notes are created with this structure:
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
-📝 Original Transcript
-[Full transcript text]
+📝 Original Transcript (Cleaned)
+[Full transcript text, cleaned up from spoken language]
 ```
 
 ## 🔒 Privacy

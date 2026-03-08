@@ -212,8 +212,8 @@ memory/voice-memos/           # All data, searchable via memory_search
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
-📝 Original Transcript / 原始转录
-[Full transcript text]
+📝 Original Transcript (Cleaned) / 原始转录（已整理）
+[Full transcript text, cleaned up from spoken language / 完整转录，已整理口语表达]
 ```
 
 ---
